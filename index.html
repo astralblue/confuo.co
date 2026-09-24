@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivace con fuoco - Streaming Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Nanum+Myeongjo:wght@400;700&family=Playball&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Background */
+        body {
+            background-color: #000040;
+            color: #f3f4f6;
+            /* General text drop shadow for readability */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Language-specific Body Fonts */
+        body.lang-en {
+            font-family: 'Merriweather', serif;
+        }
+        body.lang-ko {
+            font-family: 'Nanum Myeongjo', serif;
+        }
+
+        /* Language visibility toggling logic */
+        body.lang-en .ko-content { display: none !important; }
+        body.lang-ko .en-content { display: none !important; }
+
+        /* Stylized Brand Name */
+        .brand-text {
+            font-family: 'Playball', cursive;
+            color: #ffff80;
+            text-shadow: 0.12em 0.12em 0.12em rgba(0, 0, 0, 0.6);
+        }
+
+        /* Glassmorphism Link Cards */
+        .link-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .link-card:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Smooth fade for content changes */
+        .content-fade {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body class="lang-en min-h-screen flex flex-col antialiased selection:bg-blue-900 selection:text-white">
+    
+    <!-- Language Toggle Button -->
+    <div class="absolute top-6 right-6 z-10">
+        <button id="lang-toggle" class="px-4 py-2 rounded-full border border-white/20 bg-black/30 text-white/80 hover:text-white hover:bg-black/50 backdrop-blur-sm transition-all duration-300 text-sm tracking-widest cursor-pointer shadow-lg">
+            <span class="en-content">한국어</span>
+            <span class="ko-content">EN</span>
+        </button>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow flex flex-col items-center justify-center w-full px-6 py-16 content-fade" id="main-content">
+        <div class="w-full max-w-lg flex flex-col gap-10">
+            
+            <!-- Header & Bio -->
+            <header class="text-center space-y-6">
+                <h1 class="brand-text text-5xl md:text-6xl font-normal leading-tight px-4">
+                    Vivace con fuoco
+                </h1>
+                <p class="text-white/80 leading-relaxed text-sm md:text-base font-light px-2">
+                    <span class="en-content">A dad, an engineer, an introvert, a pianist - plays chill oldies and soundtracks. Lives in Las Vegas.</span>
+                    <span class="ko-content">애아빠 공돌이 극I 피아노쟁이입니다. 옛날 노래와 사운드트랙을 즐겨 칩니다.</span>
+                </p>
+            </header>
+
+            <div class="flex flex-col gap-8 w-full mt-4">
+                
+                <!-- Streams -->
+                <section class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <a href="/twitch" class="link-card relative flex items-center justify-center sm:justify-between px-6 py-4 rounded-lg text-gray-200 hover:text-white">
+                            <span class="tracking-wide">
+                                <span class="en-content">Twitch</span>
+                                <span class="ko-content">트위치</span>
+                            </span>
+                            <!-- Hidden by default, injected via JS on success -->
+                            <span id="twitch-status" class="hidden text-xs font-bold px-2 py-1 rounded bg-red-600/80 text-white shadow-sm ml-3 sm:ml-0">LIVE</span>
+                        </a>
+                        <a href="/chzzk" class="link-card relative flex items-center justify-center sm:justify-between px-6 py-4 rounded-lg text-gray-200 hover:text-white">
+                            <span class="tracking-wide">
+                                <span class="en-content">CHZZK</span>
+                                <span class="ko-content">치지직</span>
+                            </span>
+                            <!-- Hidden by default, injected via JS on success -->
+                            <span id="chzzk-status" class="hidden text-xs font-bold px-2 py-1 rounded bg-green-600/80 text-white shadow-sm ml-3 sm:ml-0">LIVE</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Support -->
+                <section class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <a href="/se" class="link-card flex items-center justify-center px-6 py-4 rounded-lg text-gray-200 hover:text-white">
+                            <span class="tracking-wide">StreamElements</span>
+                        </a>
+                        <a href="/toon" class="link-card flex items-center justify-center px-6 py-4 rounded-lg text-gray-200 hover:text-white">
+                            <span class="tracking-wide">
+                                <span class="en-content">Toonation</span>
+                                <span class="ko-content">투네이션</span>
+                            </span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Song Requests -->
+                <section class="space-y-3">
+                    <div class="flex flex-col gap-3">
+                        <a href="/req" class="link-card flex items-center justify-center px-6 py-4 rounded-lg text-gray-200 hover:text-white">
+                            <span class="tracking-wide">StreamerSonglist</span>
+                        </a>
+                        <p class="text-xs text-white/60 leading-relaxed px-2 text-center sm:text-left">
+                            <span class="en-content">Songs can be requested using StreamerSonglist Tokens (earned using Twitch subs and bits) or Twitch channel points.</span>
+                            <span class="ko-content">Twitch 구독 및 비트로 얻은 StreamerSonglist 토큰이나 Twitch 채널 포인트로 곡을 신청할 수 있습니다.</span>
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer / Contact -->
+    <footer class="w-full pb-8 pt-4 text-center">
+        <a href="mailto:vivace@confuo.co" class="text-sm text-white/50 hover:text-white/90 transition-colors duration-200">
+            vivace@confuo.co
+        </a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            /* --- Language Logic --- */
+            const body = document.body;
+            const toggleBtn = document.getElementById('lang-toggle');
+            const contentContainer = document.getElementById('main-content');
+
+            // Detect language
+            let currentLang = localStorage.getItem('confuo-lang');
+            if (!currentLang) {
+                const userLang = navigator.language || navigator.userLanguage;
+                currentLang = userLang.toLowerCase().startsWith('ko') ? 'ko' : 'en';
+            }
+
+            const applyLanguage = (lang) => {
+                // Trigger tiny reflow for fade effect on structural text
+                contentContainer.classList.remove('content-fade');
+                void contentContainer.offsetWidth;
+                contentContainer.classList.add('content-fade');
+
+                body.classList.remove('lang-en', 'lang-ko');
+                body.classList.add(`lang-${lang}`);
+                document.documentElement.lang = lang;
+                
+                localStorage.setItem('confuo-lang', lang);
+                currentLang = lang;
+            };
+
+            applyLanguage(currentLang);
+
+            toggleBtn.addEventListener('click', () => {
+                const newLang = currentLang === 'en' ? 'ko' : 'en';
+                applyLanguage(newLang);
+            });
+
+            /* --- Live Status Fetching Logic --- */
+            // Using your dedicated subdomains. 
+            // It expects a JSON response. E.g., { "isLive": true }
+            
+            async function fetchStatus(url, elementId) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) return; // Silent fail if API is unreachable
+                    
+                    const data = await response.json();
+                    
+                    // Assuming your API returns { "isLive": true } or { "live": true }
+                    const isLive = data.isLive === true || data.live === true;
+                    
+                    if (isLive) {
+                        const badge = document.getElementById(elementId);
+                        if (badge) {
+                            badge.classList.remove('hidden'); // Only reveal if fetch succeeds AND is live
+                        }
+                    }
+                } catch (error) {
+                    // API request failed (CORS, network error, etc.)
+                    // We fail silently to keep the UI clean, leaving badges hidden.
+                    console.log(`Could not fetch status from ${url}`);
+                }
+            }
+
+            // Fire fetches
+            fetchStatus('https://api.confuo.co/twitch-status', 'twitch-status');
+            fetchStatus('https://api.confuo.co/chzzk-status', 'chzzk-status');
+        });
+    </script>
+</body>
+</html>
